@@ -58,7 +58,7 @@ public class ChatsFragment extends Fragment {
         }
     }
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        ShapeableImageView imageView;
+        de.hdodenhof.circleimageview.CircleImageView imageView;
         TextView name,last_message;
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);

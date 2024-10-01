@@ -24,13 +24,12 @@
             android:scaleType="fitCenter"
             android:layout_marginEnd="10sp"
             />
-        <ImageButton
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/user"
             android:background="@android:color/transparent"
             android:contentDescription="profile"
-            app:shapeAppearanceOverlay="@style/roundedImageView"
             android:scaleType="centerCrop"
             android:layout_marginEnd="10sp"
             />
@@ -44,7 +43,8 @@
             android:text="Name"
             android:textAlignment="textStart"
             android:layout_marginEnd="10sp"
-            tools:ignore="RtlCompat" />
+            tools:ignore="RtlCompat"
+            android:layout_width="wrap_content"/>
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -69,7 +69,6 @@
             android:src="@drawable/dots"
             android:background="@android:color/transparent"
             android:contentDescription="profile"
-            app:shapeAppearanceOverlay="@style/roundedImageView"
             android:scaleType="fitCenter"
             />
 
@@ -99,7 +98,6 @@
             android:ems="10"
             android:inputType="text"
             android:hint="Enter Your Message"
-            app:shapeAppearanceOverlay="@style/roundedImageView"
             android:background="@drawable/input_message"
             android:padding="10sp"
             android:layout_width="wrap_content"/>
