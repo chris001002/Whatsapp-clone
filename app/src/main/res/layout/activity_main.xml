@@ -7,19 +7,17 @@
     tools:context=".MainActivity"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/top_navigation_bar"/>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        >
-
-    </androidx.viewpager2.widget.ViewPager2>
+        android:layout_weight="1"/>
 
 </LinearLayout>

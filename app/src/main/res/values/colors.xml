@@ -3,4 +3,21 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dark_green">#075E54</color>
+    <color name="purple_208">#FFBB06FC</color>
+    <color name="purple_588">#FF6200EE</color>
+    <color name="purple_788">#FF376083</color>
+    <color name="teal_208">#FF83DAFC</color>
+    <color name="teal_708">#FF018786</color>
+    <color name="colorPrimary">#8B6156</color>
+    <color name="colorPrimaryDark">#695849</color>
+    <color name="lightgrey">#EDEDED</color>
+    <color name="whatsAppColor">#0B6156</color>
+    <color name="red">#9FBBBB</color>
+    <color name="status_background">#889688</color>
+    <color name="chat_background">#BBC34A</color>
+    <color name="fb_color">#3C5793</color>
+    <color name="lightgreen">#E5FFCC</color>
+    <color name="settingsIconColor">#8E8374</color>
+    <color name="grayBackground">#BCBCBC</color>
+    <color name="chatbackground">#AAAAAA</color>
 </resources>
