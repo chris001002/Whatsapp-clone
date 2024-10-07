@@ -47,6 +47,7 @@
             android:id="@+id/txtPassword"
             android:ems="10"
             android:hint="Password"
+            android:inputType="textPassword"
             android:padding="9dp"
             android:textColor="@color/white"
             android:textColorHint="@color/chatbackground"/>
@@ -63,9 +64,9 @@
             android:textStyle="bold"/>
 
         <Button
+            android:id="@+id/btnSignIn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btnSignIn"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/design_default_color_secondary_variant"
             android:padding="15dp"
@@ -115,9 +116,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Sign Up With Phone"
+            android:text="Don't have an account? Click here to sign up"
             android:textColor="@color/white"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:clickable="true"
+            />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "460131006656",
+    "firebase_url": "https://whatsapp-clone-34892-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "whatsapp-clone-34892",
+    "storage_bucket": "whatsapp-clone-34892.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460131006656:android:b485308b4db0981fedd525",
+        "android_client_info": {
+          "package_name": "com.example.whatsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnf1DuntAavtBc5SS5wJZSXmpE7xFKVas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

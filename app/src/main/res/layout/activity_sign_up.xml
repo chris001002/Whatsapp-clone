@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SingUpActivity"
+    tools:context=".SignUpActivity"
     android:background="@drawable/w1"
     android:gravity="center"
     android:layout_centerVertical="true"
@@ -81,9 +81,9 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:padding="15dp"
-            android:text="Login with an account?"
+            android:text="Already have an account? Click here to sign in!"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold"/>
 
         <LinearLayout
