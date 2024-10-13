@@ -49,4 +49,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.circleimageview)
     implementation(platform(libs.firebase.bom))
+    implementation (libs.picasso)
 }

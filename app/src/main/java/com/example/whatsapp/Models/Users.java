@@ -3,6 +3,7 @@ package com.example.whatsapp.Models;
 public class Users {
     String profilePicture,userName,email,password, userId, lastMessage, status;
 
+    public Users(){}
     public Users(String profilePicture, String userName, String email, String password, String userId, String lastMessage, String status) {
         this.profilePicture = profilePicture;
         this.userName = userName;
