@@ -67,6 +67,16 @@ public class SignInActivity extends AppCompatActivity {
                 });
             }
         });
+        Button button = findViewById(R.id.btnSignIn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an Intent to start the new activity
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                // Start the new activity
+                startActivity(intent);
+            }
+        });
         TextView textView = findViewById(R.id.txtSignUpPhone);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override

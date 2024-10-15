@@ -66,13 +66,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {}
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                     case 1:
                     case 2:
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
             }
         });
+
+        // Menu Button Logic
         ImageView menuButton = findViewById(R.id.menu_button);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +109,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 popupMenu.show();
+            }
+        });
+
+        // Camera Button Logic
+        ImageView camera = findViewById(R.id.camera_button);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
             }
         });
     }

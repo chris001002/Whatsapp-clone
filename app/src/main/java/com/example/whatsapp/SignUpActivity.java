@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUpActivity extends AppCompatActivity{
 
     ActivitySignUpBinding binding;
-
     private FirebaseAuth mAuth;
     FirebaseDatabase database;
     ProgressBar progressBar;
@@ -42,9 +41,10 @@ public class SignUpActivity extends AppCompatActivity{
 //            return insets;
 //        });
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        //set binding  = activitysignup
+        setContentView(binding.getRoot());//set content to get layout
+        mAuth = FirebaseAuth.getInstance();//firebase authenthication
+        database = FirebaseDatabase.getInstance();//get the firebase
         progressBar =  new ProgressBar(SignUpActivity.this);
         binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
