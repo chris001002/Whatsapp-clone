@@ -1,10 +1,13 @@
 package com.example.whatsapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.whatsapp.OpenChat;
 import com.example.whatsapp.Models.Users;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +37,16 @@ public class UsersRecyclerView extends RecyclerView.Adapter<UsersRecyclerView.Re
             holder.name.setText(users.getUserName());
             holder.last_message.setText(users.getLastMessage());
             Picasso.get().load(users.getProfilePicture()).placeholder(R.drawable.user).into(holder.imageView);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OpenChat.class);
+                    intent.putExtra("userId", users.getUserId());
+                    intent.putExtra("profilePicture",users.getProfilePicture());
+                    intent.putExtra("userName", users.getUserName());
+                    context.startActivity(intent);
+                }
+            });
         }
         @Override
         public int getItemCount() {

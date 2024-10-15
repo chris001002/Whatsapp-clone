@@ -8,8 +8,8 @@
     <color name="purple_788">#FF376083</color>
     <color name="teal_208">#FF83DAFC</color>
     <color name="teal_708">#FF018786</color>
-    <color name="colorPrimary">#8B6156</color>
-    <color name="colorPrimaryDark">#695849</color>
+    <color name="colorPrimary">#efe8de</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="lightgrey">#EDEDED</color>
     <color name="whatsAppColor">#0B6156</color>
     <color name="red">#9FBBBB</color>
@@ -20,4 +20,6 @@
     <color name="settingsIconColor">#8E8374</color>
     <color name="grayBackground">#BCBCBC</color>
     <color name="chatbackground">#AAAAAA</color>
+    <color name="semiTransparentWhite">#30FFFFFF</color>
+    <color name="semiTransparentHint">#95FFFFFF</color>
 </resources>

@@ -1,32 +1,24 @@
 package com.example.whatsapp;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.whatsapp.Fragments.CallsFragment;
+import com.example.whatsapp.Fragments.ChatsFragment;
+import com.example.whatsapp.Fragments.StatusFragment;
 import com.example.whatsapp.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -106,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
                             mAuth.signOut();
                             startActivity(new Intent(MainActivity.this, SignInActivity.class));
                             return true;
+                        } else if (title.equals("Add Contact")){
+                            startActivity(new Intent(MainActivity.this, AddContact.class));
                         }
                         return false;
                     }
