@@ -1,5 +1,11 @@
 package com.example.whatsapp;
+
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +27,12 @@ import com.example.whatsapp.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding binding;
-    private class ViewPagerAdapter extends FragmentStateAdapter{
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    private ActivityMainBinding binding;
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
 
+    private class ViewPagerAdapter extends FragmentStateAdapter {
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }
@@ -32,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            switch (position){
+            switch (position) {
                 case 0: return new ChatsFragment();
                 case 1: return new StatusFragment();
                 case 2: return new CallsFragment();
@@ -49,14 +57,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set up view binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize Firebase Auth
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        // Set up ViewPager and TabLayout
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager2 viewPager2 = findViewById(R.id.viewPager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(viewPagerAdapter);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -74,59 +88,77 @@ public class MainActivity extends AppCompatActivity {
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                    case 1:
-                    case 2:
-                        tabLayout.getTabAt(position).select();
+                if (tabLayout.getTabAt(position) != null) {
+                    tabLayout.getTabAt(position).select();
                 }
-                super.onPageSelected(position);
             }
         });
 
         // Menu Button Logic
         ImageView menuButton = findViewById(R.id.menu_button);
-        menuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this,view);
-                popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        CharSequence title = menuItem.getTitle();
-                        if (title.equals("Settings")) {
-                            Toast.makeText(MainActivity.this, "Settings clicked", Toast.LENGTH_SHORT).show();
-                            return true;
-                        } else if (title.equals("Log out")) {
-                            mAuth.signOut();
-                            startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                            return true;
-                        } else if (title.equals("Add Contact")){
-                            startActivity(new Intent(MainActivity.this, AddContact.class));
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
+        menuButton.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+            popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                CharSequence title = menuItem.getTitle();
+                if (title.equals("Settings")) {
+                    Toast.makeText(MainActivity.this, "Settings clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (title.equals("Log out")) {
+                    mAuth.signOut();
+                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                    return true;
+                } else if (title.equals("Add Contact")) {
+                    startActivity(new Intent(MainActivity.this, AddContact.class));
+                    return true;
+                }
+                return false;
+            });
+            popupMenu.show();
         });
 
         // Camera Button Logic
         ImageView camera = findViewById(R.id.camera_button);
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                startActivity(intent);
-            }
+        camera.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+            startActivity(intent);
         });
+
+        // Initialize SensorManager and accelerometer
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Register the sensor listener when the activity resumes
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister the sensor listener when the activity pauses
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+
+            // Check device orientation
+            if (Math.abs(x) > Math.abs(y)) {
+                // Device is in landscape orientation, lock to portrait
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not used
+    }
 }
