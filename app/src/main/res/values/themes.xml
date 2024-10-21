@@ -1,8 +1,23 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Base application theme. -->
     <style name="Base.Theme.Whatsapp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:colorPrimary">@color/white</item>
     </style>
-
-    <style name="Theme.Whatsapp" parent="Base.Theme.Whatsapp" />
+    <style name="main">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="top_bar">
+        <item name="android:background">@color/white</item>
+        <item name="tabTextColor">@color/dark_green</item>
+        <item name="rippleColor">@color/dark_green</item>
+        <item name="tabIndicatorColor">@color/dark_green</item>
+    </style>
+    <style name="chip">
+        <item name="chipBackgroundColor">@color/chip</item>
+        <item name="android:textColor">@color/chip_text</item>
+    </style>
+    <style name="Theme.Whatsapp" parent="Base.Theme.Whatsapp">
+    </style>
 </resources>

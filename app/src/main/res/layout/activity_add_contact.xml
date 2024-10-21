@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddContact">
+    tools:context=".AddContact"
+    style="@style/main"
+    >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -52,10 +54,10 @@
         android:layout_height="wrap_content"
         android:paddingVertical="4dp"
         android:paddingHorizontal="4dp"
-        android:background="@color/white"
         android:layout_marginTop="10sp"
         android:visibility="gone"
         android:id="@+id/contact"
+        android:theme="@style/main"
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="96dp"
@@ -77,7 +79,7 @@
                 android:text="Name"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:theme="@style/main"
                 android:id="@+id/user_name"
                 android:paddingHorizontal="15dp"
                 android:layout_weight="1"

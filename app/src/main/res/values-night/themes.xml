@@ -1,7 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Whatsapp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:colorPrimary">@color/black</item>
+    </style>
+    <style name="main">
+        <item name="android:background">@color/semiBlack</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="top_bar">
+        <item name="android:background">@color/dark_green</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="rippleColor">@color/semiTransparentWhite</item>
+        <item name="tabIndicatorColor">@color/white</item>
+    </style>
+    <style name="chip">
+        <item name="chipBackgroundColor">@color/chip_dark</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

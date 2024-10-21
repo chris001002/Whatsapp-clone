@@ -1,5 +1,4 @@
 package com.example.whatsapp;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Preferences.getDarkMode(MainActivity.this)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
 
         // Set up view binding
@@ -91,30 +95,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if (tabLayout.getTabAt(position) != null) {
                     tabLayout.getTabAt(position).select();
                 }
+                super.onPageSelected(position);
             }
         });
 
         // Menu Button Logic
         ImageView menuButton = findViewById(R.id.menu_button);
-        menuButton.setOnClickListener(view -> {
-            PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
-            popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(menuItem -> {
-                CharSequence title = menuItem.getTitle();
-                if (title.equals("Settings")) {
-                    Toast.makeText(MainActivity.this, "Settings clicked", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (title.equals("Log out")) {
-                    mAuth.signOut();
-                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                    return true;
-                } else if (title.equals("Add Contact")) {
-                    startActivity(new Intent(MainActivity.this, AddContact.class));
-                    return true;
-                }
-                return false;
-            });
-            popupMenu.show();
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this,view);
+                popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        CharSequence title = menuItem.getTitle();
+                        if (title.equals("Settings")) {
+                            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                            return true;
+                        } else if (title.equals("Log out")) {
+                            mAuth.signOut();
+                            startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                            return true;
+                        } else if (title.equals("Add Contact")){
+                            startActivity(new Intent(MainActivity.this, AddContact.class));
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
         });
 
         // Camera Button Logic

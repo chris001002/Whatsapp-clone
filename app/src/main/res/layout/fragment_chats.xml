@@ -8,9 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        style="@style/main"
         >
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10sp"
@@ -23,37 +25,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All"
-                app:chipBackgroundColor="@color/chip"
                 android:checkable="true"
-                android:textColor="@color/chip_text"
-                />
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_unread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Unread"
-                app:chipBackgroundColor="@color/chip"
-                android:checkable="true"
-                android:textColor="@color/chip_text"
+                style="@style/chip"
                 />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_favorites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Favorites"
-                app:chipBackgroundColor="@color/chip"
+                style="@style/chip"
                 android:checkable="true"
-                android:textColor="@color/chip_text"
-                />
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_groups"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Groups"
-                android:background="@color/white"
-                app:chipBackgroundColor="@color/chip"
-                android:checkable="true"
-                android:textColor="@color/chip_text"
                 />
         </com.google.android.material.chip.ChipGroup>
         <ScrollView

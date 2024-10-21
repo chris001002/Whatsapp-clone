@@ -19,13 +19,16 @@ import com.example.whatsapp.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddContact extends AppCompatActivity {
     ActivityAddContactBinding binding;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         MyDatabase myDatabase =  new MyDatabase(AddContact.this);
         binding = ActivityAddContactBinding.inflate(getLayoutInflater());
@@ -50,14 +53,16 @@ public class AddContact extends AppCompatActivity {
                         boolean found = false;
                         for (DataSnapshot data : dataSnapshot.getChildren()){
                             if (data.child("email").getValue(String.class).equals(email)){
+                                found = true;
                                 Users user =data.getValue(Users.class);
                                 user.setUserId(data.getKey());
                                 binding.userName.setText(user.getUserName());
                                 binding.addContact.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        myDatabase.addUser(user.getUserId());
-                                        Log.d("data: ",myDatabase.getContacts().toString());
+                                        if (mAuth.getCurrentUser().getUid().equals(user.getUserId()))Toast.makeText(AddContact.this, "You cannot add yourself", Toast.LENGTH_SHORT).show();
+                                        else if (!myDatabase.findContact(user.getUserId())) myDatabase.addUser(user.getUserId());
+                                        else Toast.makeText(AddContact.this, "This user is already in contact list", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 binding.contact.setVisibility(View.VISIBLE);

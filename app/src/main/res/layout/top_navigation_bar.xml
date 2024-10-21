@@ -62,9 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tabLayout"
-        app:tabIndicatorColor="@color/dark_green"
-        app:tabRippleColor="@color/dark_green"
-        app:tabTextColor="@color/dark_green"
+        style="@style/top_bar"
         >
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -77,6 +75,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calls"/>
+            android:text="Calls"
+            />
     </com.google.android.material.tabs.TabLayout>
 </LinearLayout>

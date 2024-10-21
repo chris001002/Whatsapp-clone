@@ -22,4 +22,5 @@
     <color name="chatbackground">#AAAAAA</color>
     <color name="semiTransparentWhite">#30FFFFFF</color>
     <color name="semiTransparentHint">#95FFFFFF</color>
+    <color name="semiBlack">#0F0F0F</color>
 </resources>
