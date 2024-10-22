@@ -58,6 +58,7 @@ public class SignInActivity extends AppCompatActivity {
                 Preferences.setUserId(SignInActivity.this, loginResult);
                 progressBar.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });

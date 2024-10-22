@@ -61,6 +61,7 @@ public class Chat extends RecyclerView.Adapter{
             Log.d("date", message.getTimestamp());
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime dateTime = LocalDateTime.parse(message.getTimestamp(), inputFormatter);
+            dateTime = dateTime.plusHours(7);
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("HH:mm");
             String formattedDate = dateFormat.format(dateTime);
             ((SenderViewHolder) holder).senderTime.setText(formattedDate);
@@ -69,6 +70,7 @@ public class Chat extends RecyclerView.Adapter{
             ((ReceiverViewHolder)holder).receiverMessage.setText(message.getMessage());
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime dateTime = LocalDateTime.parse(message.getTimestamp(), inputFormatter);
+            dateTime = dateTime.plusHours(7);
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("HH:mm");
             String formattedDate = dateFormat.format(dateTime);
             ((ReceiverViewHolder) holder).receiverTime.setText(formattedDate);

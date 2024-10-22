@@ -14,9 +14,15 @@ import com.example.whatsapp.databinding.ActivitySettingsBinding;
 public class SettingsActivity extends AppCompatActivity {
     ActivitySettingsBinding binding;
     MyDatabase myDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Preferences.getDarkMode(this)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         myDatabase = new MyDatabase(SettingsActivity.this);
@@ -38,15 +44,13 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.darkModeSwitch.setOnCheckedChangeListener(null);
         binding.darkModeSwitch.setChecked(Preferences.getDarkMode(SettingsActivity.this));
         binding.darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 Preferences.setDarkMode(SettingsActivity.this, b);
-                if (Preferences.getDarkMode(SettingsActivity.this)){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-                else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                recreate();
             }
         });
     }

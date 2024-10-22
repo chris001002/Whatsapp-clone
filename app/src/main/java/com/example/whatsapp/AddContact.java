@@ -25,7 +25,9 @@ public class AddContact extends AppCompatActivity {
         binding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(AddContact.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
         binding.search.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +56,7 @@ public class AddContact extends AppCompatActivity {
                             return;
                         }
                         database.addContact(Preferences.getUserId(context), user.getUserId());
+                        Toast.makeText(context, "User added successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
                 binding.contact.setVisibility(View.VISIBLE);
