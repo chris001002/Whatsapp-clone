@@ -6,8 +6,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -36,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
         }
-
         @NonNull
         @Override
         public Fragment createFragment(int position) {
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             return 3;
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Preferences.getDarkMode(MainActivity.this)){
@@ -61,13 +61,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
-
+        Log.d("userid: ", String.valueOf(Preferences.getUserId(MainActivity.this)));
         // Set up view binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Initialize Firebase Auth
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         // Set up ViewPager and TabLayout
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -114,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                             return true;
                         } else if (title.equals("Log out")) {
-                            mAuth.signOut();
+                            Preferences.setUserId(MainActivity.this, -1);
                             startActivity(new Intent(MainActivity.this, SignInActivity.class));
                             return true;
                         } else if (title.equals("Add Contact")){

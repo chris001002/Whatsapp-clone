@@ -1,6 +1,7 @@
 package com.example.whatsapp.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whatsapp.Models.Message;
+import com.example.whatsapp.Preferences;
 import com.example.whatsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Date;
+import java.util.function.Predicate;
 
 public class Chat extends RecyclerView.Adapter{
     @NonNull
     ArrayList<Message>messages;
     Context context;
-    String receiverid;
+    int receiverid;
 
-    public Chat(@NonNull ArrayList<Message> messages, Context context, String receiverid) {
+    public Chat(@NonNull ArrayList<Message> messages, Context context, int receiverid) {
         this.messages = messages;
         this.context = context;
         this.receiverid = receiverid;
@@ -55,22 +58,30 @@ public class Chat extends RecyclerView.Adapter{
         Message message = messages.get(position);
         if(holder.getClass()==SenderViewHolder.class){
             ((SenderViewHolder) holder).senderMessage.setText(message.getMessage());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            String formattedDate = dateFormat.format(new Date(message.getTimestamp()));
+            Log.d("date", message.getTimestamp());
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime dateTime = LocalDateTime.parse(message.getTimestamp(), inputFormatter);
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("HH:mm");
+            String formattedDate = dateFormat.format(dateTime);
             ((SenderViewHolder) holder).senderTime.setText(formattedDate);
         }
         else{
             ((ReceiverViewHolder)holder).receiverMessage.setText(message.getMessage());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            String formattedDate = dateFormat.format(new Date(message.getTimestamp()));
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime dateTime = LocalDateTime.parse(message.getTimestamp(), inputFormatter);
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("HH:mm");
+            String formattedDate = dateFormat.format(dateTime);
             ((ReceiverViewHolder) holder).receiverTime.setText(formattedDate);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getUserId().equals(FirebaseAuth.getInstance().getUid()))return SENDER;
-        else return RECEIVER;
+        if (Preferences.getUserId(context) != messages.get(position).getUserId()) {
+            return RECEIVER;
+        } else {
+            return SENDER;
+        }
     }
 
     @Override

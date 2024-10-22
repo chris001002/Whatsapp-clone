@@ -1,10 +1,12 @@
 package com.example.whatsapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -47,7 +49,7 @@ public class CameraActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Capture photo logic (you can implement this)
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 Toast.makeText(CameraActivity.this, "Capture button clicked!", Toast.LENGTH_SHORT).show();
             }
         });

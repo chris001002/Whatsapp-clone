@@ -20,6 +20,7 @@ import com.example.whatsapp.Models.Users;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.whatsapp.Preferences;
 import com.example.whatsapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -46,8 +47,7 @@ public class UsersRecyclerView extends RecyclerView.Adapter<UsersRecyclerView.Re
             Users users = usersList.get(position);;
             holder.name.setText(users.getUserName());
             holder.last_message.setText(users.getLastMessage());
-            if (database.isFavorite(users.getUserId())==0) holder.is_favorite.setVisibility(View.INVISIBLE);
-            else holder.is_favorite.setVisibility(View.VISIBLE);
+            if (users.getIsFavorite()==0)holder.is_favorite.setVisibility(View.GONE);
             Picasso.get().load(users.getProfilePicture()).placeholder(R.drawable.user).into(holder.imageView);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,15 +66,20 @@ public class UsersRecyclerView extends RecyclerView.Adapter<UsersRecyclerView.Re
                             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    database.setFavorite(users.getUserId(), true);
-                                    notifyItemChanged(position);
+                                    Log.d(String.valueOf(Preferences.getUserId(context)), String.valueOf(users.getUserId()));
+                                    database.setFavorite(Preferences.getUserId(context), users.getUserId(), true);
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
                                 }
                             }
                             ).setNegativeButton("Remove", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    database.setFavorite(users.getUserId(), false);
-                                    notifyItemChanged(position);
+                                    database.setFavorite(Preferences.getUserId(context), users.getUserId(), false);
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
                                 }
                             }).show();
                     return true;

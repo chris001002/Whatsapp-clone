@@ -1,16 +1,17 @@
 package com.example.whatsapp.Models;
 
 public class Message {
-    String userId, message, messageid;
-    Long timestamp;
+    String message, messageid;
+    String timestamp;
+    int userId;
 
-    public Message(String userId, Long timestamp, String message) {
+    public Message(int userId, String timestamp, String message) {
         this.userId = userId;
         this.timestamp = timestamp;
         this.message = message;
     }
 
-    public Message(String userId, String message) {
+    public Message(int userId, String message) {
         this.userId = userId;
         this.message = message;
     }
@@ -18,11 +19,11 @@ public class Message {
     public Message() {
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -42,11 +43,11 @@ public class Message {
         this.messageid = messageid;
     }
 
-    public Long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }
