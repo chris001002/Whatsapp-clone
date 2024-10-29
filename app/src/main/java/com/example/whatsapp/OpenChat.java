@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,7 +47,7 @@ public class OpenChat extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        final ArrayList<Message> messages = myDatabase.getMessages(Preferences.getUserId(OpenChat.this),receiverId);
+        ArrayList<Message> messages = myDatabase.getMessages(Preferences.getUserId(OpenChat.this),receiverId);
         final Chat adapter = new Chat(messages, this, receiverId);
         binding.chatRecyclerView.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
@@ -56,12 +58,18 @@ public class OpenChat extends AppCompatActivity {
             public void onClick(View view) {
                 String msg = binding.newMessage.getText().toString();
                 Message message = new Message(Preferences.getUserId(OpenChat.this), msg);
+                LocalDateTime currentTimestamp = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedTimestamp = currentTimestamp.format(formatter);
                 myDatabase.createMessage(receiverId,message);
+                ArrayList<Message> temp = myDatabase.getMessages(Preferences.getUserId(OpenChat.this),receiverId);
+                messages.clear();
+                messages.addAll(temp);
+                adapter.notifyDataSetChanged();
                 Intent playSound = new Intent(OpenChat.this, sentSoundEffect.class);
                 startService(playSound);
-                Intent intent = getIntent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                adapter.notifyDataSetChanged();
+                binding.newMessage.setText("");
             }
         });
     }
