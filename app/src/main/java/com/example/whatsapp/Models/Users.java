@@ -1,10 +1,12 @@
 package com.example.whatsapp.Models;
 
 public class Users {
-    String profilePicture,userName,email,password, userId, lastMessage, status;
+    String profilePicture,userName,email,password, lastMessage, status;
+    int userId;
+    int isFavorite;
 
     public Users(){}
-    public Users(String profilePicture, String userName, String email, String password, String userId, String lastMessage, String status) {
+    public Users(String profilePicture, String userName, String email, String password, int userId, String lastMessage, String status) {
         this.profilePicture = profilePicture;
         this.userName = userName;
         this.email = email;
@@ -52,11 +54,11 @@ public class Users {
         this.password = password;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -74,5 +76,13 @@ public class Users {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(int isFavorite) {
+        this.isFavorite = isFavorite;
     }
 }

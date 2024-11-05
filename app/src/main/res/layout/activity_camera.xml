@@ -3,21 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- SurfaceView to display the camera preview -->
     <SurfaceView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
 
-    <!-- Button to capture the photo -->
     <Button
         android:id="@+id/capture_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Capture"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@color/dark_green"
-        android:textColor="@android:color/white" />
+        android:text="Capture" />
 </RelativeLayout>

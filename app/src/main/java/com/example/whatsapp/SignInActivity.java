@@ -1,7 +1,9 @@
 package com.example.whatsapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -24,47 +26,44 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignInActivity extends AppCompatActivity {
-
+    MyDatabase myDatabase;
+    ActivitySignInBinding binding;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_sign_in);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-        ActivitySignInBinding binding;
-        ProgressBar progressBar;
-        FirebaseAuth mAuth;
-        FirebaseDatabase firebaseDatabase;
+        myDatabase = new MyDatabase(SignInActivity.this);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //getSupportActionBar().hide();
-        mAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
 
         progressBar = new ProgressBar(SignInActivity.this);
         binding.btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (binding.txtEmail.getText().toString().isEmpty()){
+                String email = binding.txtEmail.getText().toString();
+                String password = binding.txtPassword.getText().toString();
+                if (email.isEmpty() && password.isEmpty()) {
+                    Toast.makeText(SignInActivity.this,"Please enter your email and password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (email.isEmpty()){
                     Toast.makeText(SignInActivity.this,"Please enter your email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (binding.txtPassword.getText().toString().isEmpty()){
+                if (password.isEmpty()){
                     Toast.makeText(SignInActivity.this,"Please enter your password", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                int loginResult =myDatabase.login(email, password);
+                if (loginResult == -1){
+                    Toast.makeText(SignInActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Preferences.setUserId(SignInActivity.this, loginResult);
                 progressBar.setVisibility(View.VISIBLE);
-                mAuth.signInWithEmailAndPassword(binding.txtEmail.getText().toString(),binding.txtPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
-                        if (task.isSuccessful())startActivity(new Intent(SignInActivity.this,MainActivity.class));
-                        else Toast.makeText(SignInActivity.this,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
         TextView textView = findViewById(R.id.txtSignUpPhone);
@@ -75,6 +74,6 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        if(mAuth.getCurrentUser()!=null)startActivity(new Intent(SignInActivity.this,MainActivity.class));
+        if(Preferences.getUserId(SignInActivity.this)!=-1)startActivity(new Intent(SignInActivity.this, MainActivity.class));
     }
 }

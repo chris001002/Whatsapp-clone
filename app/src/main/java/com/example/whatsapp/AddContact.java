@@ -1,34 +1,23 @@
 package com.example.whatsapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.example.whatsapp.Models.Users;
 import com.example.whatsapp.databinding.ActivityAddContactBinding;
-import com.example.whatsapp.databinding.ActivityMainBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
+
 
 public class AddContact extends AppCompatActivity {
     ActivityAddContactBinding binding;
-    FirebaseAuth mAuth;
+    MyDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mAuth = FirebaseAuth.getInstance();
+        Context context = AddContact.this;
+        database = new MyDatabase(context);
         super.onCreate(savedInstanceState);
         MyDatabase myDatabase =  new MyDatabase(AddContact.this);
         binding = ActivityAddContactBinding.inflate(getLayoutInflater());
@@ -37,41 +26,40 @@ public class AddContact extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AddContact.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
         binding.search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 String email = binding.email.getText().toString();
-                Users user;
-                firebaseDatabase.getReference().child("Users").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                if (email.isEmpty()){
+                    Toast.makeText(context, "Please fill the email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Users user = database.getUser(email);
+                if(user.getUserId()==-1){
+                    Toast.makeText(context, "Account not found", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(user.getUserId()==Preferences.getUserId(AddContact.this)){
+                    Toast.makeText(context, "You cannot add yourself", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                binding.userName.setText(user.getUserName());
+                binding.addContact.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
-                        Log.d("Firebase attempt", "Success");
-                        boolean found = false;
-                        for (DataSnapshot data : dataSnapshot.getChildren()){
-                            if (data.child("email").getValue(String.class).equals(email)){
-                                found = true;
-                                Users user =data.getValue(Users.class);
-                                user.setUserId(data.getKey());
-                                binding.userName.setText(user.getUserName());
-                                binding.addContact.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (mAuth.getCurrentUser().getUid().equals(user.getUserId()))Toast.makeText(AddContact.this, "You cannot add yourself", Toast.LENGTH_SHORT).show();
-                                        else if (!myDatabase.findContact(user.getUserId())) myDatabase.addUser(user.getUserId());
-                                        else Toast.makeText(AddContact.this, "This user is already in contact list", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                binding.contact.setVisibility(View.VISIBLE);
-                            }
+                    public void onClick(View view) {
+                        if (database.findContact(Preferences.getUserId(context), user.getUserId())){
+                            Toast.makeText(context, "User already in contacts", Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                        if (!found) Toast.makeText(AddContact.this, "Email is not found in database", Toast.LENGTH_SHORT).show();
+                        database.addContact(Preferences.getUserId(context), user.getUserId());
+                        Toast.makeText(context, "User added successfully", Toast.LENGTH_SHORT).show();
                     }
-
                 });
+                binding.contact.setVisibility(View.VISIBLE);
             }
         });
     }
