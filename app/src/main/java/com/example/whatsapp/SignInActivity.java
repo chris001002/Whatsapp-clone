@@ -42,6 +42,10 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = binding.txtEmail.getText().toString();
                 String password = binding.txtPassword.getText().toString();
+                if (email.isEmpty() && password.isEmpty()) {
+                    Toast.makeText(SignInActivity.this,"Please enter your email and password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (email.isEmpty()){
                     Toast.makeText(SignInActivity.this,"Please enter your email", Toast.LENGTH_SHORT).show();
                     return;
