@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class MyDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "contacts.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private  static final String TABLE_NAME = "contacts";
     private  static final String TABLE_NAME2 = "account";
     private static final  String TABLE_NAME3 = "chats";
@@ -48,7 +48,6 @@ public class MyDatabase extends SQLiteOpenHelper {
                 "senderId INT," +
                 "receiverId INT,"+
                 "message VARCHAR(255),"+
-                "messageRoom VARCHAR(255),"+
                 "Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP"+
                 ")";
         sqLiteDatabase.execSQL(sql3);
@@ -195,15 +194,16 @@ public class MyDatabase extends SQLiteOpenHelper {
         contentValues.put("senderId", message.getUserId());
         contentValues.put("receiverId", receiverId);
         contentValues.put("message", message.getMessage());
-        contentValues.put("messageRoom", String.valueOf(receiverId)+String.valueOf(message.getUserId()));
         mySQLite.insert(TABLE_NAME3,null, contentValues);
     }
     public ArrayList<Message>  getMessages(int ownerId, int receiverId){
         ArrayList<Message> messages = new ArrayList<>();
         mySQLite = this.getReadableDatabase();
-        String  []selectionArgs = {String.valueOf(ownerId)+String.valueOf(receiverId), String.valueOf(receiverId)+String.valueOf(ownerId)};
+        String ownerID = String.valueOf(ownerId);
+        String receiverID = String.valueOf(receiverId);
+        String  []selectionArgs = {ownerID, receiverID, ownerID, receiverID};
         String []column = {"senderId", "message", "Timestamp"};
-        Cursor cursor = mySQLite.query(TABLE_NAME3, column, "messageRoom = ? OR messageRoom = ?", selectionArgs, null, null, "Timestamp ASC");
+        Cursor cursor = mySQLite.query(TABLE_NAME3, column, "(senderId=? AND receiverId =?) or (receiverId = ? AND senderId = ?)", selectionArgs, null, null, "Timestamp ASC");
         if (!cursor.moveToFirst()) return messages;
 
         do {
@@ -217,9 +217,11 @@ public class MyDatabase extends SQLiteOpenHelper {
     }
     public String getLastMessage(int ownerId, int receiverId){
         mySQLite = this.getReadableDatabase();
-        String  []selectionArgs = {String.valueOf(ownerId)+String.valueOf(receiverId), String.valueOf(receiverId)+String.valueOf(ownerId)};
+        String ownerID = String.valueOf(ownerId);
+        String receiverID = String.valueOf(receiverId);
+        String  []selectionArgs = {ownerID, receiverID, ownerID, receiverID};
         String []column = {"message"};
-        Cursor cursor = mySQLite.query(TABLE_NAME3, column, "messageRoom = ? OR messageRoom = ?", selectionArgs, null, null, "Timestamp DESC");
+        Cursor cursor = mySQLite.query(TABLE_NAME3, column, "(senderId=? AND receiverId =?) or (receiverId = ? AND senderId = ?)", selectionArgs, null, null, "Timestamp DESC");
         if(!cursor.moveToFirst())return "";
         return cursor.getString(0);
     }
