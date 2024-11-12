@@ -56,4 +56,5 @@ dependencies {
     implementation(libs.circleimageview)
     implementation(platform(libs.firebase.bom))
     implementation (libs.picasso)
+    implementation(libs.volley)
 }

@@ -1,5 +1,6 @@
 package com.example.whatsapp.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -9,18 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.whatsapp.CreateStatus;
 import com.example.whatsapp.R;
+import com.example.whatsapp.databinding.FragmentStatusBinding;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StatusFragment extends Fragment {
+    FragmentStatusBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view;
-        view = inflater.inflate(R.layout.fragment_status, container, false);
-        CircleImageView imageView= view.findViewById(R.id.status_profile);
-        imageView.setBorderColor(Color.GREEN);
-        imageView.setBorderWidth(20);
-        return view;
+        binding = FragmentStatusBinding.inflate(getLayoutInflater());
+        binding.addStatusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CreateStatus.class);
+                startActivity(intent);
+            }
+        });
+        return binding.getRoot();
     }
 }
