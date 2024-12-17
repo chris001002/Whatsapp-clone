@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +49,10 @@ public class UsersRecyclerView extends RecyclerView.Adapter<UsersRecyclerView.Re
             Users users = usersList.get(position);;
             holder.name.setText(users.getUserName());
             holder.last_message.setText(users.getLastMessage());
+            if (users.getProfilePicture() == null) holder.imageView.setImageResource(R.drawable.user);
+            else holder.imageView.setImageBitmap(convertToBitmap(users.getProfilePicture()));
             if (database.isFavorite(users.getUserId())==0) holder.is_favorite.setVisibility(View.INVISIBLE);
             else holder.is_favorite.setVisibility(View.VISIBLE);
-            Picasso.get().load(users.getProfilePicture()).placeholder(R.drawable.user).into(holder.imageView);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,5 +101,9 @@ public class UsersRecyclerView extends RecyclerView.Adapter<UsersRecyclerView.Re
             last_message = UserView.findViewById(R.id.last_message);
             is_favorite = UserView.findViewById(R.id.favorite);
         }
+    }
+    private Bitmap convertToBitmap(String encoded) {
+        byte[] decodedString = Base64.decode(encoded, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 }

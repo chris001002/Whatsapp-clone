@@ -29,7 +29,7 @@
             android:textSize="30sp"
             android:textStyle="bold"
             style="@style/main"
-            android:id="@+id/user_name"
+            android:id="@+id/user_name_status"
             android:paddingHorizontal="15dp"
             />
 

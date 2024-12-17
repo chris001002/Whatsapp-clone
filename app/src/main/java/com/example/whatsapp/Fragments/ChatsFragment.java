@@ -1,5 +1,7 @@
 package com.example.whatsapp.Fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +61,7 @@ public class ChatsFragment extends Fragment {
                     if(myDatabase.findContact(dataSnapshot.getKey())){
                         Users users = dataSnapshot.getValue(Users.class);
                         users.setUserId(dataSnapshot.getKey());
+                        users.setProfilePicture(dataSnapshot.child("profileImage").getValue(String.class));
                         list.add(users);
                     }
                 }

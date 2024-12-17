@@ -1,18 +1,10 @@
 package com.example.whatsapp.Models;
 
 public class Users {
-    String profilePicture,userName,email,password, userId, lastMessage, status;
+    String profilePicture,userName,email,password, userId, lastMessage;
+    Status status;
 
     public Users(){}
-    public Users(String profilePicture, String userName, String email, String password, String userId, String lastMessage, String status) {
-        this.profilePicture = profilePicture;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.userId = userId;
-        this.lastMessage = lastMessage;
-        this.status = status;
-    }
 
     public Users(String userName, String email, String password) {
         this.userName = userName;
@@ -52,6 +44,14 @@ public class Users {
         this.password = password;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -68,11 +68,7 @@ public class Users {
         this.lastMessage = lastMessage;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public String getProfileImage() {
+        return null;
     }
 }

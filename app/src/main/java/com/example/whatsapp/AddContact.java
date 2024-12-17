@@ -1,7 +1,10 @@
 package com.example.whatsapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -49,13 +52,15 @@ public class AddContact extends AppCompatActivity {
                 firebaseDatabase.getReference().child("Users").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                     @Override
                     public void onSuccess(DataSnapshot dataSnapshot) {
-                        Log.d("Firebase attempt", "Success");
                         boolean found = false;
                         for (DataSnapshot data : dataSnapshot.getChildren()){
                             if (data.child("email").getValue(String.class).equals(email)){
                                 found = true;
                                 Users user =data.getValue(Users.class);
+                                String profilePicture = data.child("profileImage").getValue(String.class);
                                 user.setUserId(data.getKey());
+                                if (profilePicture == null)binding.contactProfile.setImageResource(R.drawable.user);
+                                else binding.contactProfile.setImageBitmap(convertToBitmap(profilePicture));
                                 binding.userName.setText(user.getUserName());
                                 binding.addContact.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -74,5 +79,9 @@ public class AddContact extends AppCompatActivity {
                 });
             }
         });
+    }
+    private Bitmap convertToBitmap(String encoded) {
+        byte[] decodedString = Base64.decode(encoded, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 }

@@ -6,11 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.Currency;
 import java.util.ArrayList;
 
 public class MyDatabase extends SQLiteOpenHelper {

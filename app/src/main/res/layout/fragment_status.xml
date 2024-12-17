@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,6 +14,8 @@
         android:orientation="horizontal"
         android:paddingHorizontal="20sp"
         android:paddingVertical="10sp"
+        android:id="@+id/addStatus"
+        android:visibility="gone"
         >
         <ImageView
             android:id="@+id/addStatusBtn"
@@ -20,8 +23,19 @@
             android:layout_height="100dp"
             android:src="@drawable/plus"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Add Status"
+            android:textSize="30sp"
+            android:paddingStart="20sp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
     </LinearLayout>
-    <include
-        layout="@layout/status_cover"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statusRecyclerView"
+        />
 
 </LinearLayout>
